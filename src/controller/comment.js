@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { decodeToken } from "../config/jwt.js";
 
 const prisma = new PrismaClient();
 
@@ -16,7 +15,6 @@ const postComment = async (req,res) => {
     try{
         let {ma_phong,ma_nguoi_binh_luan,ngay_binh_luan,noi_dung,sao_binh_luan} = req.body;
         let newComment = {ma_phong,ma_nguoi_binh_luan,ngay_binh_luan,noi_dung,sao_binh_luan};
-        const token = req.headers.token;
         let comment = await prisma.comments.create({data:newComment});
         res.send(comment);
 
@@ -32,7 +30,6 @@ const updateComment = async (req,res) => {
         let comment_id = Number(req.params.id);
         let {ma_phong,ma_nguoi_binh_luan,ngay_binh_luan,noi_dung,sao_binh_luan} = req.body;
         let newComment = {ma_phong,ma_nguoi_binh_luan,ngay_binh_luan,noi_dung,sao_binh_luan};
-        const token = req.headers.token;
         
         let updateComment = await prisma.comments.update({
            where:{ comment_id },

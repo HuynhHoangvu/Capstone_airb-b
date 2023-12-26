@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { decodeToken } from "../config/jwt.js";
-import { checkTokenExist } from "../middleware/handler.js";
+
 
 const prisma = new PrismaClient();
 //thêm chức năng phân quyền

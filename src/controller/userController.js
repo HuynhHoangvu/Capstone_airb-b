@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import {createToken,decodeToken} from "../config/jwt.js";
-import { checkTokenExist } from "../middleware/handler.js";
 const prisma = new PrismaClient();
 const signup = async(req,res) => {
     try{
@@ -106,7 +105,6 @@ const updateUser = async(req,res) =>{
 }
 const listUser = async(req,res) => {
     try{ 
-
       let list =  await prisma.users.findMany();
       list = list.map(user => ({
         ...user,
@@ -120,8 +118,7 @@ const listUser = async(req,res) => {
     }
 }
 const deleteUser =  async (req,res) => {
-    try{
-        
+    try{ 
         let user_id = Number(req.params.id);
         await prisma.users.delete({
             where:{user_id}
