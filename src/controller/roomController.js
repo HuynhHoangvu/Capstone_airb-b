@@ -104,15 +104,7 @@ const updateRoom = async(req,res) =>{
         let roomId = Number(req.params.id)
         let { ten_phong, khach, phong_ngu, giuong, phong_tam, mo_ta, gia_tien, may_giat, ban_la, tivi, dieu_hoa, wifi, bep, do_xe, ho_boi, ban_ui, ma_vi_tri, hinh_anh} = req.body;
         let update =  { ten_phong, khach, phong_ngu, giuong, phong_tam, mo_ta, gia_tien, may_giat, ban_la, tivi, dieu_hoa, wifi, bep, do_xe, ho_boi, ban_ui, ma_vi_tri, hinh_anh};
-        const token = req.headers.token;
-        if (!token || checkTokenExist(req)) {
-            return res.status(401).send("Unauthorized: Token is required or not valid");
-        }
-
-        const user = decodeToken(token);
-        if (!user) {
-            return res.status(401).send("Unauthorized: Invalid token");
-        }
+        
         let room =  await prisma.rooms.update({ 
             where:{
                 room_id : roomId
