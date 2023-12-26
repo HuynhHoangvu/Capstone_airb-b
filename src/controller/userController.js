@@ -2,9 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import {createToken,decodeToken} from "../config/jwt.js";
 import { checkTokenExist } from "../middleware/handler.js";
-checkTokenExist
 const prisma = new PrismaClient();
-
 const signup = async(req,res) => {
     try{
         let {name, email,pass_word,phone,birth_day,avatar,gender,role} = req.body
@@ -63,16 +61,10 @@ const login = async (req,res) => {
         res.status(400).send("Can't connect");
     }
 }
+
 const updateUser = async(req,res) =>{
     try{
-       const {token} = req.headers;
-       if(!token || checkTokenExist(req)){
-        return res.status(400).send("Token is required or not valid");
-       }
-       const user = decodeToken(token);
-       if(!user){
-        return res.status(400).send("invalid token");
-       }
+
        const {name,email,phone,birth_day,avatar, gender,role} = req.body;
 
        const userId = Number(req.params.id);
@@ -95,7 +87,7 @@ const updateUser = async(req,res) =>{
             select: {
                 name: true,
                 email: true,
-                phone: false,
+                phone: true,
                 pass_word:false,
                 birth_day: true,
                 avatar: true,
@@ -114,6 +106,7 @@ const updateUser = async(req,res) =>{
 }
 const listUser = async(req,res) => {
     try{ 
+
       let list =  await prisma.users.findMany();
       list = list.map(user => ({
         ...user,

@@ -6,15 +6,6 @@ const prisma = new PrismaClient();
 //thêm chức năng phân quyền
 const createLocal = async(req,res) => {
     try{
-        const token = req.headers.token;
-        if (!token || checkTokenExist(req)) {
-            return res.status(401).send("Unauthorized: Token is required or not valid");
-        }
-
-        const user = decodeToken(token);
-        if (!user) {
-            return res.status(401).send("Unauthorized: Invalid token");
-        }
         let {ten_vi_tri, tinh_thanh, quoc_gia, hinh_anh} = req.body;
         let newLocal = {ten_vi_tri, tinh_thanh, quoc_gia, hinh_anh};
         const existingLocal = await prisma.locations.findFirst({
@@ -72,15 +63,7 @@ const getLocal = async(req, res) =>{
 }
 const updateLocal = async(req,res)=>{
     try{
-        const token = req.headers.token;
-        if (!token || checkTokenExist(req)) {
-            return res.status(401).send("Unauthorized: Token is required or not valid");
-        }
-
-        const user = decodeToken(token);
-        if (!user) {
-            return res.status(401).send("Unauthorized: Invalid token");
-        }
+       
         let local_id = Number(req.params.id)
         let {ten_vi_tri,tinh_thanh,quoc_gia,hinh_anh}= req.body;
         const existingLocal = await prisma.locations.findFirst({
@@ -107,15 +90,7 @@ const updateLocal = async(req,res)=>{
 }
 const deleteLocal = async(req,res)=>{
     try{
-        const token = req.headers.token;
-        if (!token || checkTokenExist(req)) {
-            return res.status(401).send("Unauthorized: Token is required or not valid");
-        }
-
-        const user = decodeToken(token);
-        if (!user) {
-            return res.status(401).send("Unauthorized: Invalid token");
-        }
+        
         let local_id = Number(req.params.id);
         await prisma.locations.delete({
             where:{local_id}
